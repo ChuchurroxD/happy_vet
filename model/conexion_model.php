@@ -5,7 +5,7 @@ class Conexion_Model{
 
     public static function getConexion() {
     
-    $conexion = mysqli_connect("localhost","root","","bse_vet");
+    $conexion = mysqli_connect("localhost","root","","happy_vet");
     return $conexion;
     }
 
