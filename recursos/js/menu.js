@@ -1,8 +1,8 @@
 window.onload = function()
 {	
 	mostrarMenu();	
-	alerta_almacen();	
-    alerta_spa(); 
+	//alerta_almacen();	
+    //alerta_spa(); 
 };
 
 

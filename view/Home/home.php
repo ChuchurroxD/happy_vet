@@ -174,5 +174,5 @@
 <?php } ?>
 		<script src="../../recursos/js/alerta.js"></script>
 		<script type="text/javascript">
-			mostrarAlertaReco();
+			//mostrarAlertaReco();
 		</script>

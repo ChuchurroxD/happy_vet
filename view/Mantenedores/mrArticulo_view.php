@@ -17,14 +17,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta charset=utf-8 />
 	<title>BSE Vet</title>
+
+
 	<link rel="stylesheet" href="../../recursos/assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="../../recursos/assets/font-awesome/4.2.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../../recursos/assets/fonts/fonts.googleapis.com.css" />	
+	<link rel="stylesheet" href="../../recursos/assets/css/chosen.min.css" />
+	<link rel="stylesheet" href="../../recursos/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 	
-	<link rel="stylesheet" href="../../recursos/assets/fonts/fonts.googleapis.com.css" />
-	<link rel="stylesheet" href="../../recursos/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-
-	<link rel="stylesheet" href="../../recursos/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-		
 
 	<script src="../../recursos/assets/js/ace-extra.min.js"></script>
 
@@ -103,6 +103,10 @@
 							</li>							
 							<li>Mantenedor</li>
 							<li>Artículos</li>
+							<li>
+								<span class="invoice-info-label">Fecha:</span>
+								<span class="blue invoice-info-label"><?php echo date('d-m-Y'); ?></span>
+							</li>
 						</ul><!-- /.breadcrumb -->
 						
 					</div>
@@ -114,44 +118,139 @@
 								Artículos
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Listado
+									Registro / Actualización de Datos
 								</small>
 								<div class="widget-toolbar no-border invoice-info">
-									<span class="invoice-info-label">Fecha:</span>
-									<span class="blue invoice-info-label"><?php echo date('d-m-Y'); ?></span>
-								</div>
+									<button class="btn btn-xs btn-primary" id="nuevo_articulo">NUEVO</button>
+									<button class="btn btn-xs btn-danger" id = "listar_articulo">LISTAR</button>
+								</div>									
 							</h1>
 						</div>				
 
-						<div class="row">
+						<div class="row form-horizontal">
 							<div class="col-xs-12">													
-								<!-- PAGE CONTENT BEGINS -->
-								<div class="table-header">
-									ARTÍCULOS REGISTRADOS &nbsp;&nbsp;
-									<a id='nuevo_articulo' class='white'>
-					                    <i class='ace-icon fa fa-plus-circle bigger-150'></i>
-					                </a>
-				                </div>
-								
-								<div>
-									<table class="table table-striped table-bordered" id="tblArticulo">
-										<thead>
-											<tr>												
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Código</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Descripción</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Código de barras</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Precio de Venta</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Costo de Compra</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Stock mínimo</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Estado</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Operaciones</th>											
-											</tr>
-										</thead>
+								<div class="tabbable">
+									<ul class="nav nav-tabs" id="myTab">
+										<li class="active">
+											<a data-toggle="tab" href="#general" aria-expanded="true">
+												<i class="blue ace-icon fa fa-certificate bigger-120"></i>
+												General
+											</a>
+										</li>
 
-										<tbody id="cuerpoTabla">														
-										</tbody>
-									</table>
-								</div><!-- /.span -->
+										<li class=""  id="div_precio">
+											<a data-toggle="tab" href="#precios" aria-expanded="false">
+												<i class="blue ace-icon fa fa-money bigger-120"></i>
+												Precios												
+											</a>
+										</li>									
+									</ul>
+
+									<div class="tab-content">
+										<div id="general" class="tab-pane fade active in">
+											
+											<div class="col-xs-9">
+												<div class="form-group">
+					                                <label class="col-sm-2 control-label">C. de barras</label>
+					                                <div class="col-sm-3">
+					                                    <input class="form-control" id="txt_barras" name="txt_barras" type="text" placeholder="Ingrese código de barras " >
+					                                </div>
+													
+													<label class="col-sm-2 control-label">Sección</label>
+					                                <div class="col-sm-3">
+														<select class="form-control select" id="cbo_seccion" data-placeholder="Seleccione Sección">
+								                            <option value="">  </option>                        
+								                        </select>	
+					                                </div>
+					                            </div>	
+
+					                            <div class="form-group">
+					                                <label class="col-sm-2 control-label">Familia</label>
+					                                <div class="col-sm-3">
+					                                    <select class="form-control select" id="cbo_familia" data-placeholder="Seleccione Familia">
+								                            <option value="">  </option>                        
+								                        </select>
+					                                </div>
+													
+													<label class="col-sm-2 control-label">SubFamlia</label>
+					                                <div class="col-sm-3">
+														<select class="form-control select" id="cbo_subfamilia" data-placeholder="Seleccione SubFamilia">
+								                            <option value="">  </option>                        
+								                        </select>
+					                                </div>
+					                            </div>																			
+																					
+												<div class="form-group">
+					                                <label class="col-sm-2 control-label">Artículo</label>
+					                                <div class="col-sm-8">
+					                                    <input class="form-control" id="txt_descripcion"  name="txt_descripcion" type="text" 
+					                                    placeholder="Ingrese descripcion" onblur="buscarArticulo(value)">
+
+					                                </div>				                                				
+				                            	</div>
+												
+												<div class="form-group">
+					                                
+
+					                                <label class="col-sm-2 control-label">Stock Minimo</label>
+					                                <div class="col-sm-2">
+														<input class="form-control" id="txt_stock_minimo"  name="txt_stock_minimo" type="text" placeholder="Stock">
+					                                </div>
+
+					                                <label class="col-sm-1 control-label">IGV</label>
+					                                <div class="col-sm-2">
+														<input class="form-control" id="txt_igv"  name="txt_igv" type="text" placeholder="IGV">
+					                                </div>
+												    	                                				
+				                            	</div>
+									
+												<div class="form-group">
+					                                <label class="col-sm-2 control-label">Observaciones</label>
+					                                <div class="col-sm-8">
+					                                    <textarea class="form-control" id="txt_observaciones"  name="txt_observaciones" placeholder="Ingrese alguna observacion" rows="3"></textarea>
+					                                </div>
+					                            </div>
+
+					                            <div class="modal-footer col-sm-10">
+		                                            <button type="button" class="btn btn-xs btn-primary" id="cancel_cliente"><i class="white ace-icon fa fa-close bigger-120"></i>Cancelar</button>
+		                                            <button type="button" class="btn btn-xs btn-primary" id="register_cliente"><i class="white ace-icon fa fa-save bigger-120"></i>Registrar</button>
+		                                        </div>
+
+											</div>
+
+											<div class="col-xs-3">
+												
+											</div>
+																					
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											
+
+
+
+
+
+										</div>
+
+										<div id="precios" class="tab-pane fade">
+											<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+										</div>									
+									</div>
+								</div>
+
+
+
+
+
+
+
+
+
 															
 								<div id="modal-form" class="modal fade" tabindex="-1">
 									<div class="modal-dialog">
@@ -164,18 +263,8 @@
 											<div class="modal-body">
 												<div class="row">
 													<form class="form-horizontal form-bordered" method="post" action="../../controller/controlarticulo/articulo_controller.php" onsubmit="return validarCampos()">                                             
-							                            <div class="form-group">
-							                                <label class="col-sm-3 control-label">Código de barras</label>
-							                                <div class="col-sm-7">
-							                                    <input class="form-control" id="codigobarras" name="param_articulo_codigoBarras" type="text" placeholder="Ingrese código de barras " >
-							                                </div>
-							                            </div>
-							                            <div class="form-group">
-							                                <label class="col-sm-3 control-label">Concepto</label>
-							                                <div class="col-sm-7">
-							                                    <input class="form-control" id="concepto" name="param_articulo_concepto"  type="text" placeholder="Ingrese concepto "  >
-							                                </div>
-							                            </div>
+							                            
+							                            
 							                            
 							                            <div class="form-group">
 							                                <label class="col-sm-3 control-label">Descripción</label>
@@ -442,7 +531,7 @@
 
 		<script>
 			jQuery(document).ready(function() {
-				MLARTICULO.init();
+				MRARTICULO.init();
 			});
 		</script>
 
@@ -454,7 +543,7 @@
 		</script>
 		<script src="../../recursos/assets/js/bootstrap.min.js"></script>
 
-		
+		<script src="../../recursos/assets/js/jquery-ui.min.js"></script>
 		<script src="../../recursos/assets/js/jquery-ui.custom.min.js"></script>
 		<script src="../../recursos/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<script src="../../recursos/assets/js/chosen.jquery.min.js"></script>
@@ -469,7 +558,7 @@
 		<script src="../../recursos/assets/js/jquery.autosize.min.js"></script>
 		<script src="../../recursos/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
 		<script src="../../recursos/assets/js/jquery.maskedinput.min.js"></script>
-		<script src="../../recursos/assets/js/bootstrap-tag.min.js"></script>
+		<script src="../../recursos/assets/js/bootstrap-tag.min.js"></script>		
 
 		<!-- ace scripts -->
 		<script src="../../recursos/assets/js/ace-elements.min.js"></script>

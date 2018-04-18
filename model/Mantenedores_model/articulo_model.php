@@ -21,6 +21,12 @@ class Articulo_Model {
             case "listar":
                 echo $this->listar();
                 break;
+
+
+
+
+
+                
             case 'combo':
                 echo $this->combo();
                 break;
@@ -51,6 +57,15 @@ class Articulo_Model {
             case "get":break;
         }
     }
+
+    function prepararConsultaArticuloListar($codigo) {
+        $consultaSql = "call MA_Listar_articulos(";   
+        $consultaSql.="" . $codigo . ")";
+        //echo $consultaSql;
+        $this->result = mysqli_query($this->conexion,$consultaSql);
+    }
+
+
     private function getArrayArticulo() {
         $datos = array();
         while ($fila = mysqli_fetch_array($this->result)) {
@@ -61,19 +76,87 @@ class Articulo_Model {
                 "ART_Precioventa" => $fila["ART_Precioventa"],
                 "ART_stockActual" => $fila["ART_stockActual"],
                 "ART_stockMinimo" => $fila["ART_stockMinimo"],
-                "ART_concepto" => $fila["ART_concepto"],
+               // "ART_concepto" => $fila["ART_concepto"],
                 "SEC_codigo" => $fila["SEC_codigo"],
                 "ART_observaciones" => $fila["ART_observaciones"],
                 "ART_costoCompra" => $fila["ART_costoCompra"],
-                "ART_Estado" => $fila["ART_Estado"],
-                "ART_Precioventa" => $fila["ART_Precioventa"],
-                "ART_IVA" => $fila["ART_IVA"]
+                "ART_Estado" => $fila["ART_Estado_Descripcion"],
+                "ART_Precioventa" => $fila["ART_Precioventa"]
                 
                 ));
         }
         return $datos;
     }
     
+    
+    function listar() {
+        $datos =array();
+        $this->cerrarAbrir();
+        $this->prepararConsultaArticuloListar(0);
+        $datos = $this->getArrayArticulo();        
+
+        for($i=0; $i<count($datos); $i++) {                    
+            echo "<tr>                                  
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_codigo"])."</td>
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_descripcion"])."</td>                    
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_codigoBarras"])."</td>                    
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_Precioventa"])."</td>
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_costoCompra"])."</td>                    
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_stockMinimo"])."</td>                    
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_Estado"])."</td>
+                <td style='text-align: center' class='hidden-sm hidden-xs action-buttons'>
+                <a class='blue' class='tooltip-error' data-rel='tooltip' title='Ver'>
+                <i  class='ace-icon fa fa-search bigger-100' onclick='mostrarArticulo(".$datos[$i]["ART_codigo"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarArti' value='Editar'></i>  
+                </a>
+                <a class='green' href='#' class='tooltip-error' data-rel='tooltip' title='Editar'>
+                <i  class='ace-icon fa fa-pencil bigger-100' onclick='editarArticulo(".$datos[$i]["ART_codigo"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarArti' value='Eliminar'></i>
+                </a>";
+                if (utf8_decode($datos[$i]["ART_Estado"]) == 'Activo') {
+                                echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Desactivar">
+                                        <span class="red">
+                                            <i class="ace-icon fa fa-trash-o bigger-100" onclick="anularArticulo('.$datos[$i]["ART_codigo"].');"></i>
+                                        </span>
+                                    </a>';
+                } else {
+                    echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Activar">
+                                 <span class="green">
+                                  <i class="ace-icon fa fa-check-square-o  bigger-100" onclick="anularArticulo('.$datos[$i]["ART_codigo"].');"></i>
+                                  </span></a>';
+
+                    
+                            }     
+            echo "</tr>";
+        }            
+            
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function combo() {
             $this->prepararConsultaArticulo('opc_combo');
             $this->cerrarAbrir();
@@ -147,58 +230,7 @@ class Articulo_Model {
         $this->result = mysqli_query($this->conexion,$consultaSql);
     }
 
-    function listar() {
-
-                    $datos =array();
-            
-                    $this->cerrarAbrir();
-                    $this->prepararConsultaArticulo('opc_listar');
-                    $datos = $this->getArrayArticulo();
-                    
-                    for($i=0; $i<count($datos); $i++)
-            {
-                     
-
-                echo "<tr>                                  
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_codigo"])."</td>
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_descripcion"])."</td>                    
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_codigoBarras"])."</td>                    
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_Precioventa"])."</td>
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_costoCompra"])."</td>                    
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_stockMinimo"])."</td>                    
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_Estado"])."</td>                    
-                    
-                    <td style='text-align: center' class='hidden-sm hidden-xs action-buttons'>
-                    <a class='blue' >
-                    <i  class='ace-icon fa fa-search bigger-130' onclick='mostrarArticulo(".$datos[$i]["ART_codigo"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarArti' value='Editar'></i>  
-                    </a>
-                    <a class='green' href='#'>
-                    <i  class='ace-icon fa fa-pencil bigger-130' onclick='editarArticulo(".$datos[$i]["ART_codigo"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarArti' value='Eliminar'></i>
-                    </a>
-                    <a class='red' >
-                    <i  class='ace-icon fa fa-close bigger-130' onclick='eliminarArticuloF(".$datos[$i]["ART_codigo"].")' value='Eliminar'></i>  
-                    </a>";
-                    if (utf8_decode($datos[$i]["ART_Estado"]) == 'Activo') {
-                                    echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                            <span class="red">
-                                                <i class="ace-icon fa fa-trash-o bigger-150" onclick="anularArticulo('.$datos[$i]["ART_codigo"].');"></i>
-                                            </span>
-                                        </a>';
-                    } else {
-                        echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Active">
-                                     <span class="green">
-                                      <i class="ace-icon fa fa-check-square-o  bigger-150" onclick="anularArticulo('.$datos[$i]["ART_codigo"].');"></i>
-                                      </span></a>';
-
-                        
-                                }     
-                echo "</tr>";
-            }
-            // }else{
-            //         echo '{total:' . $total . ',datos:' . json_encode($datos) . '}';
-            // }
-            
-    }
+    
 
     
      function grabar() {

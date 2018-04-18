@@ -43,10 +43,15 @@ var MLARTICULO = function () {
             type:'POST',
             data: {param_opcion:'listar'},            
             url: "../../controller/Mantenedores_controller/articulo_controller.php",
-            success:function(data){                            
-                $('#tblArticulo').DataTable().destroy();
-                $('#cuerpoTabla').html(data);
-                $('#tblArticulo').DataTable();                                                                                  
+            success:function(data){  
+                if (data == "") {
+                    infoMessage('No se encontraron datos.');                         
+                } else {                                        
+                    $('#tblArticulo').DataTable().destroy();
+                    $('#cuerpoTabla').html(data);
+                    $('#tblArticulo').DataTable();  
+                }
+                                                                                                
             }
         });
     }
@@ -66,15 +71,193 @@ var MLARTICULO = function () {
             plugins();
             eventoControles();
             mostrarMenu();  
-            alerta_almacen();
-            alerta_spa();
+            //alerta_almacen();
+            //alerta_spa();
             listarArticulo();
         }    
     };
 }();
 
 
+var MRARTICULO = function () {
+    var arraySeccion = [];
+    var arrayFamilia = [];
+    var arraySubFamilia = [];
 
+    var plugins = function() {
+        $('.select').chosen(); 
+    }
+    
+    var fnCargarSeccion = function () {  
+        var param_opcion = 'listar_seccion';
+        $.ajax({
+           type: "post",
+            data:'param_opcion='+param_opcion,
+            url: '../../controller/Parametros_controller/combos_controller.php',
+            contenttype: "application/json;",
+            datatype: "json",
+            async: false,
+            success: function (datos) {
+                arraySeccion = JSON.parse(datos); // JSON.parse(datos);
+                if (arraySeccion.length > 0) {
+                    for (var i = 0; i < arraySeccion.length; i++) {
+                        $('#cbo_seccion').append('<option value="' + arraySeccion[i].CODIGO + '">' + arraySeccion[i].label + '</option>');
+                    }
+                    $("#cbo_seccion").chosen("destroy");
+                    $('#cbo_seccion').chosen({allow_single_deselect:false}); 
+                } else {
+                    $('#cbo_seccion').chosen({allow_single_deselect:false}); 
+                    $('#cbo_seccion').val("").trigger('chosen:updated'); // PARA SETEAR EL COMBO CON UN VALOR DETERMINADO
+                } 
+
+            },
+            error: function (msg) {
+                console.log("No se pudo recuperar el Detalle del Movimiento Contable.");
+            }
+        }); 
+      
+        //$('#cbo_seccion').val("5").trigger('chosen:updated');   
+    };
+
+    var fnCargarFamilia = function (p_seccion) {          
+        var param_opcion = 'listar_familia';        
+        $.ajax({
+           type: "post",
+            data:'param_opcion='+param_opcion+'&param_codigo='+p_seccion,
+            url: '../../controller/Parametros_controller/combos_controller.php',
+            contenttype: "application/json;",
+            datatype: "json",
+            async: false,
+            success: function (datos) {                           
+                arrayFamilia = JSON.parse(datos); // JSON.parse(datos); 
+                $("#cbo_familia").chosen("destroy");
+                $("#cbo_familia").empty();   
+                $("#cbo_subfamilia").chosen("destroy");
+                $("#cbo_subfamilia").empty();              
+                $('#cbo_subfamilia').chosen({allow_single_deselect:false});
+                if (arrayFamilia.length > 0) {                    
+                    for (var i = 0; i < arrayFamilia.length; i++) {
+                        $('#cbo_familia').append('<option value="' + arrayFamilia[i].CODIGO + '">' + arrayFamilia[i].label + '</option>');
+                    }                    
+                    $('#cbo_familia').chosen({allow_single_deselect:false}); 
+                    $('#cbo_familia').val("").trigger('chosen:updated');
+                } else {
+                    $('#cbo_familia').chosen({allow_single_deselect:false}); 
+                    $('#cbo_familia').val("").trigger('chosen:updated'); // PARA SETEAR EL COMBO CON UN VALOR DETERMINADO
+                } 
+
+            },
+            error: function (msg) {
+                console.log("No se pudo recuperar el Detalle del Movimiento Contable.");
+            }
+        }); 
+      
+        //$('#cbo_seccion').val("5").trigger('chosen:updated');   
+    };
+
+    var fnCargarSubFamilia = function (p_familia) {          
+        var param_opcion = 'listar_sub_familia';        
+        $.ajax({
+           type: "post",
+            data:'param_opcion='+param_opcion+'&param_codigo='+p_familia,
+            url: '../../controller/Parametros_controller/combos_controller.php',
+            contenttype: "application/json;",
+            datatype: "json",
+            async: false,
+            success: function (datos) {                           
+                arraySubFamilia = JSON.parse(datos); // JSON.parse(datos); 
+                $("#cbo_subfamilia").chosen("destroy");
+                $("#cbo_subfamilia").empty();               
+                if (arraySubFamilia.length > 0) {                    
+                    for (var i = 0; i < arraySubFamilia.length; i++) {
+                        $('#cbo_subfamilia').append('<option value="' + arraySubFamilia[i].CODIGO + '">' + arraySubFamilia[i].label + '</option>');
+                    }                    
+                    $('#cbo_subfamilia').chosen({allow_single_deselect:false}); 
+                    $('#cbo_subfamilia').val("").trigger('chosen:updated');
+                } else {
+                    $('#cbo_subfamilia').chosen({allow_single_deselect:false}); 
+                    $('#cbo_subfamilia').val("").trigger('chosen:updated'); // PARA SETEAR EL COMBO CON UN VALOR DETERMINADO
+                } 
+
+            },
+            error: function (msg) {
+                console.log("No se pudo recuperar el Detalle del Movimiento Contable.");
+            }
+        }); 
+      
+        //$('#cbo_seccion').val("5").trigger('chosen:updated');   
+    };
+
+    var mostrarMenu = function() {
+        var grupo = $('#NombreGrupo').val();
+        var tarea = $('#NombreTarea').val();
+        $.ajax({
+            type:'POST',
+            data: 'opcion=mostrarMenu&grupo='+grupo+'&tarea='+tarea,        
+            url: "../../controller/Usuario_controller/usuario.php",
+            success:function(data){                              
+                $('#permisos').html(data);                
+            }
+        });
+    }
+
+    var alerta_almacen = function() {
+        $.ajax({
+            type:'POST',
+            data: {opcion:'alerta_almacen'},
+            url: "../../controller/Usuario_controller/usuario.php",
+            success:function(data){                          
+                $('#alertaalmacen').html(data);
+            }
+        }); 
+    }
+
+    var alerta_spa = function() {    
+        $.ajax({
+            type:'POST',
+            data: {opcion:'alerta_spa'},
+            url: "../../controller/Usuario_controller/usuario.php",
+            success:function(data){                          
+                $('#alertaspa').html(data);
+            }
+        }); 
+    }    
+
+    var eventoControles = function () {
+        $('#nuevo_articulo').on('click', function () {        
+            
+        });
+
+        $('#listar_articulo').on('click', function () {        
+            location.href = "mlArticulo_view.php";
+        });    
+
+
+        $('#cbo_seccion').on('change', function () {
+            arrayFamilia = JSON.parse('{}'); ;                            
+            var p_seccion = $(this).val();
+            fnCargarFamilia(p_seccion);
+        });
+
+        $('#cbo_familia').on('change', function () {
+            arrayFamilia = JSON.parse('{}'); ;                            
+            var p_familia = $(this).val();
+            fnCargarSubFamilia(p_familia);
+        });
+
+    }
+
+    return {
+        init: function(){
+            plugins();            
+            fnCargarSeccion();
+            eventoControles();
+            mostrarMenu();  
+            //alerta_almacen();
+            //alerta_spa();            
+        }    
+    };
+}();
 
 
 
