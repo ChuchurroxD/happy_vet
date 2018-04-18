@@ -86,6 +86,23 @@ var MRARTICULO = function () {
 
     var plugins = function() {
         $('.select').chosen(); 
+
+        $('#file_articulo').ace_file_input({
+            no_file:'No File ...',
+            btn_choose:'Choose',
+            btn_change:'Change',
+            droppable:false,
+            onchange:null,
+            thumbnail:false, //| true | large
+            //whitelist:'gif|png|jpg|jpeg'
+            //blacklist:'exe|php'
+            //
+            before_remove : function() {
+                $('#file_articulo').ace_file_input('reset_input');
+                $('#img_prev').attr('src', '../../recursos/images/no_disponible.png').width(295).height(250);                
+            }
+        });
+
     }
     
     var fnCargarSeccion = function () {  

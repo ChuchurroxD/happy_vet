@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="../../recursos/assets/fonts/fonts.googleapis.com.css" />	
 	<link rel="stylesheet" href="../../recursos/assets/css/chosen.min.css" />
 	<link rel="stylesheet" href="../../recursos/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-	
+	<link rel="stylesheet" href="../../recursos/assets/css/jquery.gritter.min.css" />
 
 	<script src="../../recursos/assets/js/ace-extra.min.js"></script>
 
@@ -138,7 +138,7 @@
 											</a>
 										</li>
 
-										<li class=""  id="div_precio">
+										<li class=""  id="div_precio" style="display: none;">
 											<a data-toggle="tab" href="#precios" aria-expanded="false">
 												<i class="blue ace-icon fa fa-money bigger-120"></i>
 												Precios												
@@ -149,7 +149,7 @@
 									<div class="tab-content">
 										<div id="general" class="tab-pane fade active in">
 											
-											<div class="col-xs-9">
+											<div class="col-xs-8">
 												<div class="form-group">
 					                                <label class="col-sm-2 control-label">C. de barras</label>
 					                                <div class="col-sm-3">
@@ -194,12 +194,12 @@
 
 					                                <label class="col-sm-2 control-label">Stock Minimo</label>
 					                                <div class="col-sm-2">
-														<input class="form-control" id="txt_stock_minimo"  name="txt_stock_minimo" type="text" placeholder="Stock">
+														<input class="form-control" id="txt_stock_minimo"  name="txt_stock_minimo" type="text" placeholder="Stock" onkeypress="return ValidaNumeros(event,this)">
 					                                </div>
 
 					                                <label class="col-sm-1 control-label">IGV</label>
 					                                <div class="col-sm-2">
-														<input class="form-control" id="txt_igv"  name="txt_igv" type="text" placeholder="IGV">
+														<input class="form-control" id="txt_igv"  name="txt_igv" type="text" placeholder="IGV" onkeypress="return ValidaDecimales(event,this,5)">
 					                                </div>
 												    	                                				
 				                            	</div>
@@ -209,39 +209,103 @@
 					                                <div class="col-sm-8">
 					                                    <textarea class="form-control" id="txt_observaciones"  name="txt_observaciones" placeholder="Ingrese alguna observacion" rows="3"></textarea>
 					                                </div>
-					                            </div>
-
-					                            <div class="modal-footer col-sm-10">
-		                                            <button type="button" class="btn btn-xs btn-primary" id="cancel_cliente"><i class="white ace-icon fa fa-close bigger-120"></i>Cancelar</button>
-		                                            <button type="button" class="btn btn-xs btn-primary" id="register_cliente"><i class="white ace-icon fa fa-save bigger-120"></i>Registrar</button>
-		                                        </div>
+					                            </div>					                           
 
 											</div>
 
-											<div class="col-xs-3">
-												
+											<div class="col-xs-4">												
+												<img id="img_prev" src="../../recursos/images/no_disponible.png" alt="your image" />
+												<br>
+												<div class="form-group">
+													<div class="col-xs-9">
+														<input type="file" id="file_articulo" onchange="readURL(this);" />
+													</div>
+												</div>
 											</div>
-																					
-											<br><br><br>
-											<br><br><br>
-											<br><br><br>
-											<br><br><br>
-											<br><br><br>
-											<br><br><br>
-											<br><br><br>
 											
-
-
-
-
-
+											<div class="col-xs-12">
+												<div class="modal-footer col-xs-12">		                                            
+		                                            <button type="button" class="btn btn-xs btn-primary" id="register_cliente"><i class="white ace-icon fa fa-save bigger-100"></i>&nbsp;Registrar</button>
+		                                            <button type="button" class="btn btn-xs btn-primary" id="cancel_cliente"><i class="white ace-icon fa fa-close bigger-100"></i>&nbsp;Cancelar</button>
+		                                        </div>
+											</div>		
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
 										</div>
 
 										<div id="precios" class="tab-pane fade">
-											<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+											<div class="col-xs-12 col-sm-9 col-sm-offset-1 pricing-box">
+												<div class="widget-box widget-color-blue">
+													<div class="widget-header">
+														<h5 class="widget-title bigger lighter" style="font-weight: bold;">Mantenimiento de Precios</h5>
+													</div>
+
+													<div class="widget-body">
+														<div class="widget-main">
+															<div class="form-group">
+								                                <label class="col-sm-2 control-label">Costo</label>
+								                                <div class="col-sm-3">
+								                                    <input class="form-control" id="txt_precio_compra"  name="txt_precio_compra" type="text" placeholder="P. Compra" disabled="disabled" onkeypress="return ValidaDecimales(event,this,5)">
+								                                </div>	
+								                                <label class="col-sm-2 control-label">Stock Actual</label>
+								                                <div class="col-sm-3">
+								                                    <input class="form-control" id="txt_stock_actual"  name="txt_stock_actual" type="text" placeholder="Stock" disabled="disabled" onkeypress="return ValidaNumeros(event,this)">
+								                                </div>												
+								                            </div>	
+
+								                            <div class="form-group">
+								                                <label class="col-sm-2 control-label">Precio Normal</label>
+								                                <div class="col-sm-3">
+								                                    <input class="form-control" id="txt_precio_normal"  name="txt_precio_normal" type="text" placeholder="P. Normal" onkeypress="return ValidaDecimales(event,this,5)">
+								                                </div>	
+								                                <label class="col-sm-2 control-label">Precio Mínimo</label>
+								                                <div class="col-sm-3">
+								                                    <input class="form-control" id="txt_stock_minima"  name="txt_stock_minima" type="text" placeholder="P. Mínimo" onkeypress="return ValidaDecimales(event,this,5)">
+								                                </div>												
+								                            </div>	
+
+															<hr />
+															<div class="price">
+																<button type="button" class="btn btn-xs btn-primary" id="modificar_precios"><i class="white ace-icon fa fa-save"></i>&nbsp;Modificar</button>
+															</div><br>
+														</div>
+
+														
+													</div>
+												</div>
+											</div>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br>
+											<br><br><br><br>
 										</div>									
 									</div>
 								</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -527,7 +591,7 @@
 		<script src="../../recursos/assets/js/jquery.2.1.1.min.js"></script>
 		<script src="../../recursos/assets/js/ace-extra.min.js"></script>		
 		<script src="../../recursos/js/articulo.js"></script>
-
+		<script src="../../recursos/js/utiles.js"></script>
 
 		<script>
 			jQuery(document).ready(function() {
@@ -559,16 +623,30 @@
 		<script src="../../recursos/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
 		<script src="../../recursos/assets/js/jquery.maskedinput.min.js"></script>
 		<script src="../../recursos/assets/js/bootstrap-tag.min.js"></script>		
-
+	
 		<!-- ace scripts -->
 		<script src="../../recursos/assets/js/ace-elements.min.js"></script>
 		<script src="../../recursos/assets/js/ace.min.js"></script>
 		<script src="../../recursos/assets/js/jquery.dataTables.min.js"></script>
 		<script src="../../recursos/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+		<script src="../../recursos/assets/js/jquery.gritter.min.js"></script>
+
 	</body>
 </html>
 <?php } ?>
 		<script src="../../recursos/js/alerta.js"></script>
 		<script type="text/javascript">
-			//mostrarAlertaReco();
+			function readURL(input) {
+		    	if (input.files && input.files[0]) {
+		    		var reader = new FileReader();
+		    		reader.onload = function (e) {
+		    			$('#img_prev').attr('src', e.target.result).width(295).height(250);   //  ACA ESPECIFICAN QUE TAMANO DE ALTO QUIEREN
+		    		};
+		    		reader.readAsDataURL(input.files[0]);
+		    	}
+		    }
 		</script>
+
+		<script>
+		    
+	    </script>
