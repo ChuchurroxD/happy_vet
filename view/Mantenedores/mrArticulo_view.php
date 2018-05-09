@@ -225,8 +225,8 @@
 											
 											<div class="col-xs-12">
 												<div class="modal-footer col-xs-12">		                                            
-		                                            <button type="button" class="btn btn-xs btn-primary" id="register_cliente"><i class="white ace-icon fa fa-save bigger-100"></i>&nbsp;Registrar</button>
-		                                            <button type="button" class="btn btn-xs btn-primary" id="cancel_cliente"><i class="white ace-icon fa fa-close bigger-100"></i>&nbsp;Cancelar</button>
+		                                            <button type="button" class="btn btn-xs btn-primary" id="register_articulo"><i class="white ace-icon fa fa-save bigger-100"></i>&nbsp;Registrar</button>
+		                                            <button type="button" class="btn btn-xs btn-primary" id="register_articulo"><i class="white ace-icon fa fa-close bigger-100"></i>&nbsp;Cancelar</button>
 		                                        </div>
 											</div>		
 											<br><br><br>
