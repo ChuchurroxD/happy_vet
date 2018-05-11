@@ -14,12 +14,16 @@ class Cliente_Model {
     function gestionar($param) {
         $this->param = $param;
         switch ($this->param['param_opcion']) {
-             case "listar":
+            case "listar":
                 echo $this->listarClientes();
                 break;
-
-
-
+            case "registro_cliente":
+                echo $this->registrarClientes();
+                break;
+            case "modificar_cliente":
+                echo $this->modificarClientes();
+                break;
+                
 
 
 
@@ -122,14 +126,96 @@ class Cliente_Model {
                     echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Activar">
                                  <span class="green">
                                   <i class="ace-icon fa fa-check-square-o  bigger-100" onclick="anularCliente('.$datos[$i]["CODIGO"].');"></i>
-                                  </span></a>';
-
-                    
+                                  </span></a>';                
                             }     
             echo "</tr>";
-        }            
-            
+        }                    
     }
+
+    function prepararConsultaRegistrarCliente() {
+        $consultaSql = "call MA_Registrar_clientes(";                
+        $consultaSql.="'".$this->param['param_abreviatura'] . "',";
+        $consultaSql.="'".$this->param['param_nombres'] . "',";
+        $consultaSql.="'".$this->param['param_apellidos'] . "',";
+        $consultaSql.="'".$this->param['param_dni'] . "',";
+        $consultaSql.="'".$this->param['param_departamento'] . "',";
+        $consultaSql.="'".$this->param['param_provincia'] . "',";
+        $consultaSql.="'".$this->param['param_distrito'] . "',";
+        $consultaSql.="'".$this->param['param_direccion'] . "',";
+        $consultaSql.="'".$this->param['param_fechaNacimiento'] . "',";
+        $consultaSql.="'".$this->param['param_telefonoFijo'] . "',";
+        $consultaSql.="'".$this->param['param_celular'] . "',";
+        $consultaSql.="'".$this->param['param_notificacion'] . "',";
+        $consultaSql.="'".$this->param['param_email'] . "',";        
+        $consultaSql.="'".$this->param['param_tipoCliente'] . "',";
+        $consultaSql.="'".$this->param['param_estado'] . "',";
+        $consultaSql.="'".$this->param['param_fechaAlta'] . "',";
+        $consultaSql.="'".$this->param['param_fechaModificacion'] . "',";                            
+        $consultaSql.="'".$this->param['param_observaciones'] . "',";
+        $consultaSql.="'".$this->param['param_usuario'] . "')";    
+        //echo $consultaSql;
+        $this->result = mysqli_query($this->conexion,$consultaSql);
+    }
+
+    function prepararConsultaModificarCliente() {
+        $consultaSql = "call MA_Modificar_clientes(";                
+        $consultaSql.="'".$this->param['param_abreviatura'] . "',";
+        $consultaSql.="'".$this->param['param_nombres'] . "',";
+        $consultaSql.="'".$this->param['param_apellidos'] . "',";
+        $consultaSql.="'".$this->param['param_dni'] . "',";
+        $consultaSql.="'".$this->param['param_departamento'] . "',";
+        $consultaSql.="'".$this->param['param_provincia'] . "',";
+        $consultaSql.="'".$this->param['param_distrito'] . "',";
+        $consultaSql.="'".$this->param['param_direccion'] . "',";
+        $consultaSql.="'".$this->param['param_fechaNacimiento'] . "',";
+        $consultaSql.="'".$this->param['param_telefonoFijo'] . "',";
+        $consultaSql.="'".$this->param['param_celular'] . "',";
+        $consultaSql.="'".$this->param['param_notificacion'] . "',";
+        $consultaSql.="'".$this->param['param_email'] . "',";        
+        $consultaSql.="'".$this->param['param_tipoCliente'] . "',";
+        $consultaSql.="'".$this->param['param_estado'] . "',";                                    
+        $consultaSql.="'".$this->param['param_observaciones'] . "',";
+        $consultaSql.="'".$this->param['param_usuario'] . "',";
+        $consultaSql.="'".$this->param['param_codigo'] . "')";    
+        //echo $consultaSql;
+        $this->result = mysqli_query($this->conexion,$consultaSql);
+    }
+
+    private function getArrayResultado() {
+        $respuesta = 0;
+        while ($fila = mysqli_fetch_array($this->result)) {
+            $respuesta = $fila["respuesta"];
+        }
+        return $respuesta;
+    }
+
+    function registrarClientes() {
+        $this->prepararConsultaRegistrarCliente();        
+        $respuesta = $this->getArrayResultado();
+        echo $respuesta;        
+    }
+
+    function modificarClientes() {
+        $this->prepararConsultaModificarCliente();        
+        $respuesta = $this->getArrayResultado();
+        echo $respuesta;        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -250,19 +336,8 @@ class Cliente_Model {
 
     }
 
-    private function getArrayResultado() {
-        $resultado = 0;
-        while ($fila = mysqli_fetch_array($this->result)) {
-            $resultado = $fila["resultado"];
-        }
-        return $resultado;
-    }
-
-    function nuevo_cliente() {
-        $this->prepararConsultaGestionarCliente('opc_nuevo_cliente');        
-        $resultado = $this->getArrayResultado();
-        echo $resultado;        
-    }
+    
+    
 
 
 

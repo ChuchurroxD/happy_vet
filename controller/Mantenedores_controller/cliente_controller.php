@@ -18,25 +18,17 @@ $param['param_telefonoFijo']="";
 $param['param_celular']="";
 $param['param_notificacion']="";
 $param['param_email']="";
-$param['param_idioma']="";
 $param['param_tipoCliente']="";
-$param['param_estadoCliente']="";
+$param['param_estado']="";
 $param['param_fechaAlta']="";
 $param['param_fechaModificacion']="";
 $param['param_fechaBaja']="";
-$param['param_tipoFactura']="";
-$param['param_tarifa']="";
-$param['param_descuento']="";
 $param['param_observaciones']="";
-$param['param_codigoCombo']="";
+$param['param_usuario']="";
 
 
 if (isset($_POST['param_opcion'])) {
     $param['param_opcion'] = $_POST['param_opcion'];
-}
-
-if (isset($_POST['codigo'])) {
-    $param['param_codigoCombo'] = $_POST['codigo'];
 }
 
 if (isset($_POST['param_codigo'])) {
@@ -95,17 +87,13 @@ if (isset($_POST['param_email'])) {
     $param['param_email'] = $_POST['param_email'];
 }
 
-if (isset($_POST['param_idioma'])) {
-    $param['param_idioma'] = $_POST['param_idioma'];
-}
-
 
 if (isset($_POST['param_tipoCliente'])) {
     $param['param_tipoCliente'] = $_POST['param_tipoCliente'];
 }
 
-if (isset($_POST['param_estadoCliente'])) {
-    $param['param_estadoCliente'] = $_POST['param_estadoCliente'];
+if (isset($_POST['param_estado'])) {
+    $param['param_estado'] = $_POST['param_estado'];
 }
 
 if (isset($_POST['param_fechaAlta'])) {
@@ -120,20 +108,12 @@ if (isset($_POST['param_fechaBaja'])) {
     $param['param_fechaBaja'] = $_POST['param_fechaBaja'];
 }
 
-if (isset($_POST['param_tipoFactura'])) {
-    $param['param_tipoFactura'] = $_POST['param_tipoFactura'];
-}
-
-if (isset($_POST['param_tarifa'])) {
-    $param['param_tarifa'] = $_POST['param_tarifa'];
-}
-
-if (isset($_POST['param_descuento'])) {
-    $param['param_descuento'] = $_POST['param_descuento'];
-}
-
 if (isset($_POST['param_observaciones'])) {
     $param['param_observaciones'] = $_POST['param_observaciones'];
+}
+
+if (isset($_SESSION['usuario'])) {
+    $param['param_usuario'] = $_SESSION['usuario'];
 }
 
 $Cliente = new Cliente_Model();

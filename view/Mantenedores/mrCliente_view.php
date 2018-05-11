@@ -273,10 +273,11 @@
                                         <textarea name="param_observaciones" id="param_observaciones" rows="3" class="form-control" autofocus=""></textarea>
                                     </div>
                                 </div>			
-								
+								<input type="hidden" dissabled="true" id="param_codigo">
 								<div class="col-xs-12">
 									<div class="modal-footer col-xs-12">		                                            
                                         <button type="button" class="btn btn-xs btn-primary" id="register_cliente"><i class="white ace-icon fa fa-save bigger-100"></i>&nbsp;Registrar</button>
+                                        <button type="button" class="btn btn-xs btn-primary" id="update_cliente"><i class="white ace-icon fa fa-save bigger-100"></i>&nbsp;Modificar</button>
                                         <button type="button" class="btn btn-xs btn-primary" id="cancel_cliente"><i class="white ace-icon fa fa-close bigger-100"></i>&nbsp;Cancelar</button>
                                     </div>
 								</div>																
@@ -309,6 +310,7 @@
 			</a>
 			<input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
 			<input type="hidden" dissabled="true" value="Clientes" id="NombreTarea">
+
 		</div><!-- /.main-container -->
 		
 		<script src="../../recursos/assets/js/jquery.2.1.1.min.js"></script>

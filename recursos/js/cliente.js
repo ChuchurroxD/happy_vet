@@ -66,6 +66,8 @@ var MLCLIENTE = function () {
         });    
     }
 
+   
+
     return {
         init: function(){
             plugins();
@@ -73,7 +75,7 @@ var MLCLIENTE = function () {
             mostrarMenu();  
             //alerta_almacen();
             //alerta_spa();
-            listarCliente();
+            listarCliente();            
         }    
     };
 }();
@@ -248,6 +250,117 @@ var MRCLIENTE = function () {
             fnCargarDistrito(p_provincia);
         });
 
+        $('#register_cliente').on('click', function () {    
+            var data = {
+                'param_opcion': 'registro_cliente',
+                'param_abreviatura': $("#param_abreviatura").val(),
+                'param_nombres': $("#param_nombres").val(),
+                'param_apellidos': $("#param_apellidos").val(),
+                'param_dni': $("#param_dni").val(),
+                'param_departamento': $("#param_departamento").val(),
+                'param_provincia': $("#param_provincia").val(),
+                'param_distrito': $("#param_distrito").val(),
+                'param_direccion': $("#param_direccion").val(),
+                'param_fechaNacimiento': $("#param_fechaNacimiento").val(),
+                'param_telefonoFijo': $("#param_telefonoFijo").val(),
+                'param_celular': $("#param_celular").val(),                
+                'param_notificacion': $("#param_notificacion").val(),
+                'param_email': $("#param_email").val(),
+                'param_tipoCliente': $("#param_tipoCliente").val(),
+                'param_estado': $("#param_estado").val(),
+                'param_fechaAlta': $("#param_fechaAlta").val(),
+                'param_fechaModificacion': $("#param_fechaModificacion").val(),
+                'param_fechaBaja': $("#param_fechaBaja").val(),
+                'param_observaciones': $("#param_observaciones").val()
+
+            };
+
+            $.ajax({
+                type: "post",
+                data:data,
+                url: '../../controller/Mantenedores_controller/cliente_controller.php',
+                contenttype: "application/json;",
+                datatype: "json",
+                async: false,
+                success: function (datos) { 
+                    if (datos == 1) {
+                        errorMessage('Ocurrio un error al registrar el cliente');
+                    }             
+
+                    if (datos == 2) {
+                        infoMessage('El cliente ya esta registrado');
+                    }
+
+                    if (datos > 1 || datos > 2) {
+                        $("#param_codigo").val(datos);                        
+                        $("#param_fechaAlta").attr("disabled", true);
+                        $('#param_estado').prop('disabled', false).trigger("chosen:updated"); 
+                        $("#register_cliente").attr("style", "display:none");
+                        $("#update_cliente").attr("style", "display:inline");
+                        exitoMessage('El cliente se registro correctamente');
+                    } else {
+                        errorMessage('Ocurrio un error al registrar el cliente');
+                    }
+                },
+                error: function (msg) {
+                    console.log("No se pudo recuperar el Detalle del Movimiento Contable.");
+                }
+            });     
+        });
+
+        $('#update_cliente').on('click', function () {    
+            var data = {
+                'param_opcion': 'modificar_cliente',
+                'param_codigo': $("#param_codigo").val(),
+                'param_abreviatura': $("#param_abreviatura").val(),
+                'param_nombres': $("#param_nombres").val(),
+                'param_apellidos': $("#param_apellidos").val(),
+                'param_dni': $("#param_dni").val(),
+                'param_departamento': $("#param_departamento").val(),
+                'param_provincia': $("#param_provincia").val(),
+                'param_distrito': $("#param_distrito").val(),
+                'param_direccion': $("#param_direccion").val(),
+                'param_fechaNacimiento': $("#param_fechaNacimiento").val(),
+                'param_telefonoFijo': $("#param_telefonoFijo").val(),
+                'param_celular': $("#param_celular").val(),
+                'param_notificacion': $("#param_notificacion").val(),                
+                'param_email': $("#param_email").val(),
+                'param_tipoCliente': $("#param_tipoCliente").val(),
+                'param_estado': $("#param_estado").val(),                                        
+                'param_observaciones': $("#param_observaciones").val()
+            };
+
+            $.ajax({
+                type: "post",
+                data:data,
+                url: '../../controller/Mantenedores_controller/cliente_controller.php',
+                contenttype: "application/json;",
+                datatype: "json",
+                async: false,
+                success: function (datos) { 
+                    if (datos == 1) {
+                        errorMessage('Ocurrio un error al modificar el cliente');
+                    }             
+
+                    if (datos == 2) {
+                        infoMessage('El dni ingresado ya existe');
+                    }
+
+                    if (datos == 3) {                                                                    
+                        exitoMessage('El cliente se modifico correctamente');
+                    }
+                },
+                error: function (msg) {
+                    console.log("No se pudo recuperar el Detalle del Movimiento Contable.");
+                }
+            });     
+        });
+    }
+
+    var cargaInicial = function () {
+        $('#param_estado').val("1").trigger('chosen:updated'); 
+        $('#param_estado').prop('disabled', true).trigger("chosen:updated"); 
+        $("#update_cliente").attr("style", "display:none");               
     }
 
     return {
@@ -258,6 +371,7 @@ var MRCLIENTE = function () {
             mostrarMenu();  
             //alerta_almacen();
             //alerta_spa();            
+            cargaInicial();
         }    
     };
 }();
