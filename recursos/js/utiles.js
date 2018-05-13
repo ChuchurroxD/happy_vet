@@ -103,3 +103,40 @@ function ValidaDecimales(e, field, cantidad, negativos) {
     // other key
     return false
 }
+
+//OBTENER QUERY STRING POR JQUERY
+function ObtenerQueryString(param) {
+    var urlpagina = window.location.search.substring(1);
+    var variables = urlpagina.split('?');
+    for (var i = 0; i < variables.length; i++) {
+        var nombrparam = variables[i].split('=');
+        if (nombrparam[0] == param) {
+            return nombrparam[1]; //valor
+
+        }
+    }
+}
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " �����abcdefghijklmn�opqrstuvwxyz";
+    especiales = "8-37-39-46";
+
+    tecla_especial = false
+    for (var i in especiales) {
+        if (key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+        return false;
+    }
+}
+
+function validar_email( email ) {
+    var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email) ? true : false;
+}

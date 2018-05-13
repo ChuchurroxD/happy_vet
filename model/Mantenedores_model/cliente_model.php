@@ -23,8 +23,17 @@ class Cliente_Model {
             case "modificar_cliente":
                 echo $this->modificarClientes();
                 break;
-                
+            case "listar_cliente":
+                echo $this->datosCliente();
+                break;                                
+            case "desactivar_cliente":
+                echo $this->cambiarEstadoCliente();
+                break;                      
+            case "activar_cliente":
+                echo $this->cambiarEstadoCliente();
+                break;      
 
+                
 
 
 
@@ -34,18 +43,7 @@ class Cliente_Model {
             case 'mostrarMascotasCliente':
                 echo $this->mostrarMascotasCliente();
                 break;            
-            case 'comboDepartamento':
-                echo $this->comboDepartamento();
-                break;
-            case 'comboProvincia':
-                echo $this->comboProvincia();
-                break;
-            case 'comboDistrito':
-                echo $this->comboDistrito();
-                break;
-            case 'nuevo_cliente':
-                echo $this->nuevo_cliente();
-                break;
+            
             case 'modificarEstado':
                 echo $this->delete_cliente();
                 break;
@@ -90,7 +88,15 @@ class Cliente_Model {
                 "FECHA_ALTA" => $fila["FECHA_ALTA"],
                 "FECHA_MODIFICACION" => $fila["FECHA_MODIFICACION"],
                 "FECHA_BAJA" => $fila["FECHA_BAJA"],
-                "OBSERVACION" => $fila["OBSERVACION"]                
+                "OBSERVACION" => $fila["OBSERVACION"],
+                "DEPARTAMENTO" => $fila["DEPARTAMENTO"],
+                "PROVINCIA" => $fila["PROVINCIA"],
+                "DISTRITO" => $fila["DISTRITO"],
+                "CLI_NOMBRES" => $fila["CLI_NOMBRES"],
+                "CLI_APELLIDOS" => $fila["CLI_APELLIDOS"],
+                "CLI_TELEFONO" => $fila["CLI_TELEFONO"],
+                "LIS_ESTADO" => $fila["LIS_ESTADO"]
+                                 
             ));
         }
         return $datos;
@@ -104,11 +110,11 @@ class Cliente_Model {
 
         for($i=0; $i<count($datos); $i++) {                    
             echo "<tr>                                  
-                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["NOMBRES"])."</td>
-                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["DIRECCION"])."</td>                    
-                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["TELEFONO"])."</td>                    
+                <td style='text-align: left; font-size: 11px; height: 10px; '>".($datos[$i]["NOMBRES"])."</td>
+                <td style='text-align: left; font-size: 11px; height: 10px; '>".($datos[$i]["DIRECCION"])."</td>                    
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["CLI_TELEFONO"])."</td>                    
                 <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["EMAIL"])."</td>                  
-                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ESTADO"])."</td>
+                <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["LIS_ESTADO"])."</td>
                 <td style='text-align: center' class='hidden-sm hidden-xs action-buttons'>
                 <a class='blue' class='tooltip-error' data-rel='tooltip' title='Ver'>
                 <i  class='ace-icon fa fa-search bigger-100' onclick='mostrarCliente(".$datos[$i]["CODIGO"].")' href='#'' type='button' data-toggle='modal' data-target='#modalVerCliente'></i>  
@@ -116,7 +122,7 @@ class Cliente_Model {
                 <a class='green' href='#' class='tooltip-error' data-rel='tooltip' title='Editar'>
                 <i  class='ace-icon fa fa-pencil bigger-100' onclick='editarCliente(".$datos[$i]["CODIGO"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarArti'></i>
                 </a>";
-                if (utf8_decode($datos[$i]["ESTADO"]) == 'Activo') {
+                if (utf8_decode($datos[$i]["LIS_ESTADO"]) == 'ACTIVO') {
                                 echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Desactivar">
                                         <span class="red">
                                             <i class="ace-icon fa fa-trash-o bigger-100" onclick="anularCliente('.$datos[$i]["CODIGO"].');"></i>
@@ -125,11 +131,22 @@ class Cliente_Model {
                 } else {
                     echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Activar">
                                  <span class="green">
-                                  <i class="ace-icon fa fa-check-square-o  bigger-100" onclick="anularCliente('.$datos[$i]["CODIGO"].');"></i>
+                                  <i class="ace-icon fa fa-check-square-o  bigger-100" onclick="activarCliente('.$datos[$i]["CODIGO"].');"></i>
                                   </span></a>';                
                             }     
             echo "</tr>";
         }                    
+    }
+
+
+    function datosCliente() {
+        $cod = $this->param['param_codigo'];
+        $datos =array();
+        $this->cerrarAbrir();
+        $this->prepararConsultaClienteListar($cod);
+        $datos = $this->getArrayClientes();  
+        echo json_encode($datos);       
+        //echo $datos;    
     }
 
     function prepararConsultaRegistrarCliente() {
@@ -149,8 +166,7 @@ class Cliente_Model {
         $consultaSql.="'".$this->param['param_email'] . "',";        
         $consultaSql.="'".$this->param['param_tipoCliente'] . "',";
         $consultaSql.="'".$this->param['param_estado'] . "',";
-        $consultaSql.="'".$this->param['param_fechaAlta'] . "',";
-        $consultaSql.="'".$this->param['param_fechaModificacion'] . "',";                            
+        $consultaSql.="'".$this->param['param_fechaAlta'] . "',";                                
         $consultaSql.="'".$this->param['param_observaciones'] . "',";
         $consultaSql.="'".$this->param['param_usuario'] . "')";    
         //echo $consultaSql;
@@ -201,8 +217,21 @@ class Cliente_Model {
         echo $respuesta;        
     }
 
+    function prepararConsultaModificarEstadoCliente($codigo, $operacion) {
+        $consultaSql = "call MA_Modificar_estado_clientes(";   
+        $consultaSql.="'". $codigo . "',";
+        $consultaSql.="'". $operacion . "')";  
+        //echo $consultaSql;
+        $this->result = mysqli_query($this->conexion,$consultaSql);
+    }
 
-
+    function cambiarEstadoCliente() {
+        $cod = $this->param['param_codigo'];
+        $operacion = $this->param['param_operacion'];
+        $this->prepararConsultaModificarEstadoCliente($cod, $operacion);        
+        $respuesta = $this->getArrayResultado();
+        echo $respuesta;        
+    }
 
 
 

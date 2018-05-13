@@ -25,6 +25,8 @@ $param['param_fechaModificacion']="";
 $param['param_fechaBaja']="";
 $param['param_observaciones']="";
 $param['param_usuario']="";
+$param['param_operacion']="";
+
 
 
 if (isset($_POST['param_opcion'])) {
@@ -45,6 +47,10 @@ if (isset($_POST['param_nombres'])) {
 
 if (isset($_POST['param_apellidos'])) {
     $param['param_apellidos'] = $_POST['param_apellidos'];
+}
+
+if (isset($_POST['param_operacion'])) {
+    $param['param_operacion'] = $_POST['param_operacion'];
 }
 
 if (isset($_POST['param_dni'])) {

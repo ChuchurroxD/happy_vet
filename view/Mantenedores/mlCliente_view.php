@@ -122,7 +122,7 @@
 								</small>
 								<div class="widget-toolbar no-border invoice-info">
 									<button class="btn btn-xs btn-primary" id="nuevo_articulo">NUEVO</button>
-									<button class="btn btn-xs btn-danger" id = "listar_articulo">LISTAR</button>
+									<!--button class="btn btn-xs btn-danger" id = "listar_articulo">LISTAR</button -->
 								</div>								
 							</h1>
 						</div>				
@@ -138,12 +138,12 @@
 									<table class="table table-striped table-bordered" id="tblCliente">
 										<thead>
 											<tr>												
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">NOMBRES</th>
+												<th style="text-align: center; font-size: 11px; height: 10px; width:10%">NOMBRES</th>
 												<th style="text-align: center; font-size: 11px; height: 10px; width:10%">DIRECCION</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">TELEFONO</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">EMAIL</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">ESTADO</th>
-												<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Operaciones</th>											
+												<th style="text-align: center; font-size: 11px; height: 10px; width:7%">TELEFONO</th>
+												<th style="text-align: center; font-size: 11px; height: 10px; width:7%">EMAIL</th>
+												<th style="text-align: center; font-size: 11px; height: 10px; width:4%">ESTADO</th>
+												<th style="text-align: center; font-size: 11px; height: 10px; width:4%">Operaciones</th>											
 											</tr>
 										</thead>
 

@@ -121,8 +121,8 @@
 									Registro / Actualización de Datos
 								</small>
 								<div class="widget-toolbar no-border invoice-info">
-									<button class="btn btn-xs btn-primary" id="nuevo_articulo">NUEVO</button>
-									<button class="btn btn-xs btn-danger" id = "listar_articulo">LISTAR</button>
+									<button class="btn btn-xs btn-primary" id="nuevo_cliente">NUEVO</button>
+									<button class="btn btn-xs btn-danger" id = "listar_cliente">LISTAR</button>
 								</div>									
 							</h1>
 						</div>				
@@ -152,7 +152,7 @@
                                     </div>
                                     <label class="col-md-1 control-label">DNI</label>
                                     <div class="col-md-2">
-                                        <input type="text" id="param_dni" name="param_dni" placeholder="DNI" class="col-xs-12" autofocus="" onkeypress="return solonumeros(event)" maxlength="8" />
+                                        <input type="text" id="param_dni" name="param_dni" placeholder="DNI" class="col-xs-12" autofocus="" onkeypress="return ValidaNumeros(event,this)"maxlength="8" />
                                     </div>
                                 </div>	
 								
@@ -259,7 +259,7 @@
                                     </div>                                    
                                     <label class="col-md-1 control-label">Últ. Mod.</label>
                                     <div class="col-md-3">
-	                                    <input class="form-control col-md-12" type="date" name="param_fechaModificacion" id="param_fechaModificacion" value="<?php echo date("Y-m-d") ?>" disabled="disabled"/>
+	                                    <input class="form-control col-md-12" type="date" name="param_fechaModificacion" id="param_fechaModificacion" disabled="disabled"/>
 	                                </div>
 	                                <label class="col-md-1 control-label">Fecha Baja</label>                                
 	                                <div class="col-md-2">
