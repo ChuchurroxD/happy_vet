@@ -255,85 +255,10 @@ class Cliente_Model {
 
 
 
+    
 
 
-
-
-    function prepararConsultaCombos($opcion) {
-        $consultaSql = "call sp_combos(";
-        $consultaSql.="'".$opcion . "',";
-        $consultaSql.="'".$this->param['param_codigoCombo'] . "')";
-        //echo $consultaSql;
-        $this->result = mysqli_query($this->conexion,$consultaSql);
-    }
-
-    function prepararConsultaGestionarCliente($opcion) {
-        $consultaSql = "call sp_control_cliente(";
-        $consultaSql.="'".$opcion . "',";
-        $consultaSql.="'".$this->param['param_codigo'] . "',";
-        $consultaSql.="'".$this->param['param_abreviatura'] . "',";
-        $consultaSql.="'".$this->param['param_nombres'] . "',";
-        $consultaSql.="'".$this->param['param_apellidos'] . "',";
-        $consultaSql.="'".$this->param['param_dni'] . "',";
-        $consultaSql.="'".$this->param['param_departamento'] . "',";
-        $consultaSql.="'".$this->param['param_provincia'] . "',";
-        $consultaSql.="'".$this->param['param_distrito'] . "',";
-        $consultaSql.="'".$this->param['param_direccion'] . "',";
-        $consultaSql.="'".$this->param['param_fechaNacimiento'] . "',";
-        $consultaSql.="'".$this->param['param_telefonoFijo'] . "',";
-        $consultaSql.="'".$this->param['param_celular'] . "',";
-        $consultaSql.="'".$this->param['param_notificacion'] . "',";
-        $consultaSql.="'".$this->param['param_email'] . "',";
-        $consultaSql.="'".$this->param['param_idioma'] . "',";        
-        $consultaSql.="'".$this->param['param_tipoCliente'] . "',";
-        $consultaSql.="'".$this->param['param_estadoCliente'] . "',";
-        $consultaSql.="'".$this->param['param_fechaAlta'] . "',";
-        $consultaSql.="'".$this->param['param_fechaModificacion'] . "',";
-        $consultaSql.="'".$this->param['param_fechaBaja'] . "',";
-        $consultaSql.="'".$this->param['param_tipoFactura'] . "',";
-        $consultaSql.="'".$this->param['param_tarifa'] . "',";
-        $consultaSql.="'".$this->param['param_descuento'] . "',";
-        $consultaSql.="'".$this->param['param_observaciones'] . "')";
-        //echo $consultaSql;
-        $this->result = mysqli_query($this->conexion,$consultaSql);
-    }
-
-
-    function comboDepartamento() {
-        $this->prepararConsultaCombos('opc_combo_departamento');
-        $this->cerrarAbrir();
-        echo '
-                <select class="form-control" id="param_departamento" name="param_departamento" onchange="agregarProvincia();">
-                    <option value="" disabled selected style="display: none;">Seleccione Departamento</option>';
-        while ($fila = mysqli_fetch_row($this->result)) {
-            echo'<option value="'.$fila[0].'">'.utf8_encode($fila[1]).'</option>';
-        }
-        echo '</select>';
-    }
-
-    function comboProvincia() {
-        $this->prepararConsultaCombos('opc_combo_provincia');
-        $this->cerrarAbrir();
-        echo '<select class="form-control" id="param_provincia" name="param_provincia" onchange="agregarDistrito();">
-                    <option value="" disabled selected style="display: none;">Seleccione su Provincia</option>';
-        while ($fila = mysqli_fetch_row($this->result)) {
-            echo'<option value="'.$fila[0].'">'.utf8_encode($fila[1]).'</option>';
-        }
-        echo '</select>';
-    }
-
-    function comboDistrito() {
-        $this->prepararConsultaCombos('opc_combo_distrito');
-        $this->cerrarAbrir();
-        echo '
-                <select class="form-control" id="param_distrito" name="param_distrito">
-                    <option value="" disabled selected style="display: none;">Seleccione Distrito</option>';
-        while ($fila = mysqli_fetch_row($this->result)) {
-            echo'<option value="'.$fila[0].'">'.utf8_encode($fila[1]).'</option>';
-        }
-        echo '</select>';
-    }
-
+    
     function mostrarClientes() {
         $this->prepararConsultaCombos('opc_listar_clientes');
         $this->cerrarAbrir();

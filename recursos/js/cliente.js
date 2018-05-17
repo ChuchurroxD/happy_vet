@@ -63,10 +63,12 @@ var MLCLIENTE = function () {
 
         $('#listar_articulo').on('click', function () {             
             listarCliente();
-        });    
-    }
+        }); 
 
-   
+        $('#cancel_cliente').on('click', function () {             
+            $('#modalInfoCliente').modal('hide');
+        });  
+    }
 
     return {
         init: function(){
@@ -619,6 +621,66 @@ function activarCliente(codigo) {
                 listarCliente();                   
             } else {
                 errorMessage('Ocurrio un error al realizar la operación');
+            }
+        }
+    });
+}
+
+function mostrarCliente(codigo) {        
+    
+    $.ajax({
+        type:'POST',
+        data: {param_opcion:'listar_cliente', param_codigo:codigo},            
+        url: "../../controller/Mantenedores_controller/cliente_controller.php",
+        success:function(data){  
+            console.log(data)
+            data = JSON.parse(data);
+            console.log(data)
+            if (data,length = 0) {
+                infoMessage('No se pudo recuperar los datos del cliente.');                         
+            } else {                  
+                $("#nombre_completo").html(data[0].NOMBRES);
+                $("#dni").html(data[0].DNI);
+                $("#notificacion").html(data[0].NOTIFICACION);                
+                $("#direccion").html(data[0].DIRECCION);
+
+                if (data[0].TIPO_CLIENTE == 1) {
+                    $("#tipCliente").html('BUENO');
+                }
+
+                if (data[0].TIPO_CLIENTE == 2) {
+                    $("#tipCliente").html('ESPECIAL');
+                }
+
+                if (data[0].TIPO_CLIENTE == 3) {
+                    $("#tipCliente").html('MALO');
+                }
+
+                if (data[0].TIPO_CLIENTE == 4) {
+                    $("#tipCliente").html('MOROSO');
+                }
+
+                if (data[0].TIPO_CLIENTE == 5) {
+                    $("#tipCliente").html('NORMAL');
+                }
+
+                if (data[0].TIPO_CLIENTE == 6) {
+                    $("#tipCliente").html('REGULAR');
+                }            
+
+
+                $("#email").html(data[0].EMAIL);
+                $("#telefono").html(data[0].CLI_TELEFONO);
+                $("#observacion").html(data[0].OBSERVACION);
+
+                if (data[0].ESTADO == 1) {
+                    $("#tipCliente").html('ACTIVO');
+                } else {
+                    $("#estado").html('INACTIVO');    
+                }
+
+                $('#modalInfoCliente').modal('show');
+                
             }
         }
     });

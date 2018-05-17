@@ -181,6 +181,13 @@
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
+			
+
+
+			
+
+
+
 
 			<div class="footer">
 				<div class="footer-inner">
@@ -207,6 +214,101 @@
 			<input type="hidden" dissabled="true" value="Clientes" id="NombreTarea">
 		</div><!-- /.main-container -->
 		
+
+		<div class="modal fade" id="modalInfoCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 65% !important;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title text-center"><b>Información de Cliente</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST" class="form-horizontal" id="form_eventoPago">
+                            <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
+                                <div class="row">
+                                    <div class="modal-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="nombreCompleto" style="font-weight: bold;">Nombre Completo:</label>
+                                                </div>
+                                                <div class="col-md-4" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="nombreCompleto" id="nombre_completo"></label>
+                                                </div> 
+                                                <div class="col-md-1" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="dni" style="font-weight: bold;">DNI:</label>
+                                                </div>
+                                                <div class="col-md-1" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="dni" id="dni"></label>
+                                                </div>  
+                                                <div class="col-md-1">
+                                                    
+                                                </div>   
+                                                <div class="col-md-1" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="notificacion" style="font-weight: bold;">Notificación:</label>
+                                                </div>
+                                                <div class="col-md-1" style="text-align: center;">
+                                                    <label class="control-label no-padding-right" for="notificacion" id="notificacion"></label>
+                                                </div>                                               
+                                            </div>
+                                            <div class="form-group" style="text-align: right">
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="direccion" style="font-weight: bold;">Dirección:</label>
+                                                </div>
+                                                <div class="col-md-4" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="direccion" id="direccion"></label>
+                                                </div> 
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="tipCliente" style="font-weight: bold;">Tipo Cliente:</label>
+                                                </div>
+                                                <div class="col-md-2" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="tipCliente" id="tipCliente"></label>
+                                                </div> 
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="email" style="font-weight: bold;">Email:</label>
+                                                </div>
+                                                <div class="col-md-4" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="email" id="email"></label>
+                                                </div> 
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="telefono" style="font-weight: bold;">Telefono:</label>
+                                                </div>
+                                                <div class="col-md-3" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="telefono" id="telefono"></label>
+                                                </div> 
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="observacion" style="font-weight: bold;">Observaciones:</label>
+                                                </div>
+                                                <div class="col-md-4" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="observacion" id="observacion"></label>
+                                                </div> 
+                                                <div class="col-md-2" style="text-align: right">
+                                                    <label class="control-label no-padding-right" for="estado" style="font-weight: bold;">Estado:</label>
+                                                </div>
+                                                <div class="col-md-3" style="text-align: left;">
+                                                    <label class="control-label no-padding-right" for="estado" id="estado"></label>
+                                                </div> 
+                                            </div>
+                                     
+                                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="cancel_cliente">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
 		<script src="../../recursos/assets/js/jquery.2.1.1.min.js"></script>
 		<script src="../../recursos/assets/js/ace-extra.min.js"></script>
 
